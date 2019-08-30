@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM i386/ubuntu:18.04
 
 MAINTAINER John Ky <newhoggy@gmail.com>
 
@@ -6,7 +6,6 @@ ARG GHC_VERSION=8.8.4
 ARG LTS_SLUG=lts-10.1
 ARG PID1_VERSION=0.1.0.1
 ARG DEBIAN_FRONTEND=noninteractive
-
 
 RUN apt-get update                                                          && \
     apt-get -y install software-properties-common                           && \
@@ -46,6 +45,7 @@ ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     PATH=/root/.cabal/bin:/root/.local/bin:/opt/ghc/bin:$PATH
 
-RUN apt-get update                                                          && \
-    apt-get -y install cabal-install-3.0                                    && \
-    rm -rf /var/lib/apt/lists/*
+RUN curl -L http://dl.john-ky.io.s3-website-ap-southeast-2.amazonaws.com/public/haskell/downloads/cabal-cache/cabal-3.2.0.0-i386-ubuntu-18.04.tar.gz -o cabal-3.2.0.0-i386-ubuntu-18.04.tar.gz  && \
+    tar -zxvf cabal-3.2.0.0-i386-ubuntu-18.04.tar.gz                        && \
+    mv ./cabal /root/.local/bin/cabal                                       && \
+    rm cabal-3.2.0.0-i386-ubuntu-18.04.tar.gz
